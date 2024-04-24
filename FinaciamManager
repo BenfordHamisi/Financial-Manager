@@ -1,0 +1,65 @@
+import datetime
+
+class DailyExpenditureTracker:
+    def __init__(self, initial_balance):
+        self.balance = initial_balance
+        self.transactions = []
+
+    def record_transaction(self, amount, category):
+        self.balance -= amount
+        transaction = {"amount": amount, "category": category, "date": datetime.date.today()}
+        self.transactions.append(transaction)
+
+    def check_balance(self):
+        return self.balance
+
+    def alert_low_balance(self):
+        if self.balance < 200:
+            print("Alert: Your balance is below 200 Kenyan Shillings!")
+
+    def display_transactions(self):
+        print("------- Daily Expenditure Tracker -------")
+        print("Date\t\tAmount\tCategory")
+        print("----------------------------------------")
+        for transaction in self.transactions:
+            print(f"{transaction['date']}\t{transaction['amount']}\t{transaction['category']}")
+        print("----------------------------------------")
+        print(f"Current Balance: {self.balance} Kenyan Shillings")
+        print("----------------------------------------")
+
+
+def main():
+    initial_balance = float(input("Enter your initial balance (in Kenyan Shillings): "))
+    expenditure_tracker = DailyExpenditureTracker(initial_balance)
+
+    while True:
+        print("\n1. Record Transaction")
+        print("2. Check Balance")
+        print("3. Display Transactions")
+        print("4. Exit")
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            amount = float(input("Enter transaction amount: "))
+            category = input("Enter transaction category: ")
+            expenditure_tracker.record_transaction(amount, category)
+            expenditure_tracker.alert_low_balance()
+
+        elif choice == "2":
+            balance = expenditure_tracker.check_balance()
+            print(f"Your current balance is: {balance} Kenyan Shillings")
+            expenditure_tracker.alert_low_balance()
+
+        elif choice == "3":
+            expenditure_tracker.display_transactions()
+
+        elif choice == "4":
+            print("Exiting...")
+            break
+
+        else:
+            print("Invalid choice. Please try again.")
+
+
+if __name__ == "__main__":
+    main()
